@@ -141,7 +141,9 @@ public class FlinkJobUploadMojo extends AbstractMojo {
         try {
             response = httpClient.execute(runJobUrl);
             String bodyAsString = EntityUtils.toString(response.getEntity(),"UTF-8");
-            runJobResponse = new JSONObject(bodyAsString);
+            if (bodyAsString.startsWith("{") && bodyAsString.endsWith("}")) {
+                runJobResponse = new JSONObject(bodyAsString);
+            }
             getLog().info(bodyAsString);
         } catch (IOException e) {
             e.printStackTrace();
